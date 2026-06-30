@@ -1,0 +1,66 @@
+name: stay-current
+
+# Ride the public NeuroGolf frontier from GitHub's infra — independent of any
+# local machine (replaces the fragile WSL cron that only fired while WSL was up).
+# Scans Kaggle for the highest-scoring public submission and submits it iff it
+# beats our current best. Rank-safe: Kaggle keeps your BEST submission, so a
+# worse submit never lowers rank — it only spends one of the ~5/day submissions.
+#
+# REQUIRED REPO SECRETS (Settings > Secrets and variables > Actions):
+#   KAGGLE_USERNAME  — your Kaggle username
+#   KAGGLE_KEY       — a CLASSIC API token key (kaggle.com > Settings >
+#                      "Create New API Token" -> kaggle.json -> the "key" field).
+#   NOTE: the local CLI here uses ACCESS_TOKEN (browser OAuth), which does NOT
+#   work in CI — you must mint a classic token for these secrets.
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'      # every 6h (UTC); well under Kaggle's ~5 submits/day
+  workflow_dispatch: {}         # manual "Run workflow" button for on-demand checks
+
+permissions:
+  contents: write               # to commit the updated stay_current_state.json
+
+concurrency:
+  group: stay-current           # never let two runs overlap
+  cancel-in-progress: false
+
+jobs:
+  ride:
+    runs-on: ubuntu-latest
+    env:
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Kaggle CLI
+        run: pip install --quiet kaggle
+
+      - name: Sanity-check Kaggle auth
+        run: |
+          if [ -z "$KAGGLE_USERNAME" ] || [ -z "$KAGGLE_KEY" ]; then
+            echo "::error::KAGGLE_USERNAME / KAGGLE_KEY secrets are not set." ; exit 1
+          fi
+          kaggle competitions list -s neurogolf >/dev/null && echo "auth OK"
+
+      - name: Ride the frontier
+        run: |
+          mkdir -p artifacts data
+          python scripts/stay_current_auto.py 2>&1 | tee -a artifacts/stay_current.log
+
+      - name: Persist state
+        run: |
+          if ! git diff --quiet -- artifacts/stay_current_state.json; then
+            git config user.name  "stay-current-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add artifacts/stay_current_state.json
+            git commit -m "stay-current: update state [skip ci]"
+            git push
+          else
+            echo "no state change to persist"
+          fi

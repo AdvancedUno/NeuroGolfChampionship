@@ -1,0 +1,35 @@
+{
+ "best_score": 7178.9,
+ "submitted_refs": [
+  "boristown/neurogolf-stack-audit-variant-v51-7174-70",
+  "harishk2209/neurogolf-7178-23"
+ ],
+ "original_wins": {
+  "task080": {
+   "floor": 17216,
+   "new": 13677,
+   "dpts": 0.23
+  },
+  "task187": {
+   "floor": 36814,
+   "new": 30438,
+   "dpts": 0.19
+  },
+  "task367": {
+   "floor": 26903,
+   "new": 23927,
+   "dpts": 0.117
+  },
+  "task349": {
+   "floor": 26190,
+   "new": 23489,
+   "dpts": 0.109
+  },
+  "task364": {
+   "floor": 23013,
+   "new": 22571,
+   "dpts": 0.019
+  }
+ },
+ "note": "7178.90 = harishk2209 7178.23 public floor + 5 original floor-net golf wins (+0.666). Re-apply golf_wins/builders.json on each new public frontier via golf_verify kernel (inject2.py -> push -> submit)."
+}
