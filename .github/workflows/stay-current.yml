@@ -6,12 +6,12 @@ name: stay-current
 # beats our current best. Rank-safe: Kaggle keeps your BEST submission, so a
 # worse submit never lowers rank — it only spends one of the ~5/day submissions.
 #
-# REQUIRED REPO SECRETS (Settings > Secrets and variables > Actions):
-#   KAGGLE_USERNAME  — your Kaggle username
-#   KAGGLE_KEY       — a CLASSIC API token key (kaggle.com > Settings >
-#                      "Create New API Token" -> kaggle.json -> the "key" field).
-#   NOTE: the local CLI here uses ACCESS_TOKEN (browser OAuth), which does NOT
-#   work in CI — you must mint a classic token for these secrets.
+# REQUIRED REPO SECRET (Settings > Secrets and variables > Actions):
+#   KAGGLE_API_TOKEN — a Kaggle access token ("KGAT_..." from kaggle.com >
+#                      Settings > "Create New Token"). Written to
+#                      ~/.kaggle/access_token below; the kaggle CLI reads it
+#                      automatically. (Classic KAGGLE_USERNAME/KEY also works if
+#                      you prefer, but the KGAT token is Kaggle's current method.)
 
 on:
   schedule:
@@ -29,8 +29,7 @@ jobs:
   ride:
     runs-on: ubuntu-latest
     env:
-      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
-      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
@@ -43,9 +42,12 @@ jobs:
 
       - name: Sanity-check Kaggle auth
         run: |
-          if [ -z "$KAGGLE_USERNAME" ] || [ -z "$KAGGLE_KEY" ]; then
-            echo "::error::KAGGLE_USERNAME / KAGGLE_KEY secrets are not set." ; exit 1
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "::error::KAGGLE_API_TOKEN secret is not set." ; exit 1
           fi
+          mkdir -p ~/.kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
           kaggle competitions list -s neurogolf >/dev/null && echo "auth OK"
 
       - name: Ride the frontier
