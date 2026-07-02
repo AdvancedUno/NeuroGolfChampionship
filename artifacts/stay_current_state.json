@@ -1,15 +1,19 @@
 {
- "best_score": 7180.86,
+ "best_score": 7181.73,
  "submitted_refs": [
   "boristown/neurogolf-stack-audit-variant-v51-7174-70",
   "harishk2209/neurogolf-7178-23",
+  "cocoaai/7179-72-lb-neurogolf-legal-micro-tail",
+  "neurogolf-consolidated-audit-7180-57",
+  "neurogolf-7180-55-targets-task187-task191",
   "yuu111111111/neurogolf-7180-86-local-scoring-guide"
  ],
- "original_wins": {
+ "note": "7181.72 (LB-confirmed 2026-07-02) = yuu 7180.86 public floor + 12 strict original golf wins (+0.862) via golf_verify. builders.json (19 tasks) ships as dataset advanceduno/neurogolf-golf-wins (NOT inlined; blob > Kaggle 1MB script cap). Re-capture loop per new frontier: stay_current_auto rides -> repoint golf_verify kernel_sources at frontier kernel + push -> submit. Kernel official-cost is EXACT for strict swaps. GOTCHA: agent builders that read the floor from scratchpad/ FAIL in-kernel (no such file); always re-freeze to a self-contained base64-embedded build() before banking.",
+ "golf_wins_on_7180_86_floor": {
   "task080": {
-   "floor": 17216,
+   "floor": 17136,
    "new": 13677,
-   "dpts": 0.23
+   "dpts": 0.225
   },
   "task187": {
    "floor": 36814,
@@ -21,16 +25,60 @@
    "new": 23927,
    "dpts": 0.117
   },
+  "task255": {
+   "floor": 22771,
+   "new": 21426,
+   "dpts": 0.061
+  },
+  "task319": {
+   "floor": 21949,
+   "new": 20823,
+   "dpts": 0.053
+  },
   "task349": {
-   "floor": 26190,
+   "floor": 24389,
    "new": 23489,
-   "dpts": 0.109
+   "dpts": 0.038
+  },
+  "task219": {
+   "floor": 18528,
+   "new": 17960,
+   "dpts": 0.031
+  },
+  "task054": {
+   "floor": 27053,
+   "new": 26333,
+   "dpts": 0.027
   },
   "task364": {
    "floor": 23013,
    "new": 22571,
    "dpts": 0.019
+  },
+  "task076": {
+   "floor": 19796,
+   "new": 19502,
+   "dpts": 0.015
+  },
+  "task158": {
+   "floor": 35327,
+   "new": 34810,
+   "dpts": 0.015
+  },
+  "task066": {
+   "floor": 18379,
+   "new": 17127,
+   "dpts": 0.071
+  },
+  "task329": {
+   "floor": 1059,
+   "new": 1050,
+   "dpts": 0.009
+  },
+  "task341": {
+   "floor": 1429,
+   "new": 1422,
+   "dpts": 0.005
   }
- },
- "note": "7178.90 = harishk2209 7178.23 public floor + 5 original floor-net golf wins (+0.666). Re-apply golf_wins/builders.json on each new public frontier via golf_verify kernel (inject2.py -> push -> submit)."
+ }
 }
