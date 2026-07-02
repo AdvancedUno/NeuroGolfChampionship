@@ -1,5 +1,5 @@
 {
- "best_score": 7184.44,
+ "best_score": 7184.85,
  "submitted_refs": [
   "boristown/neurogolf-stack-audit-variant-v51-7174-70",
   "harishk2209/neurogolf-7178-23",
@@ -7,7 +7,8 @@
   "neurogolf-consolidated-audit-7180-57",
   "neurogolf-7180-55-targets-task187-task191",
   "yuu111111111/neurogolf-7180-86-local-scoring-guide",
-  "pixiux/neurogolf-7184-44-public-blend-task338"
+  "pixiux/neurogolf-7184-44-public-blend-task338",
+  "cocoaai/7184-85-lb-neurogolf-public-blend"
  ],
  "note": "7181.72 (LB-confirmed 2026-07-02) = yuu 7180.86 public floor + 12 strict original golf wins (+0.862) via golf_verify. builders.json (19 tasks) ships as dataset advanceduno/neurogolf-golf-wins (NOT inlined; blob > Kaggle 1MB script cap). Re-capture loop per new frontier: stay_current_auto rides -> repoint golf_verify kernel_sources at frontier kernel + push -> submit. Kernel official-cost is EXACT for strict swaps. GOTCHA: agent builders that read the floor from scratchpad/ FAIL in-kernel (no such file); always re-freeze to a self-contained base64-embedded build() before banking.",
  "golf_wins_on_7180_86_floor": {
